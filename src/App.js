@@ -1,7 +1,7 @@
 import './App.scss';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 //Pages
-import {Home,Contact} from './pages/index';
+import {Home,Contact,Login,Register} from './pages/index';
 //components
 import {Header,Footer} from './components/index'
 
@@ -13,7 +13,9 @@ function App() {
  
     <Routes>
       <Route exact path="/" element={<Home></Home>}></Route>
-      <Route exact path="/contact" element={<Contact></Contact>}></Route>
+      <Route  path="/contact" element={<Contact></Contact>}></Route>
+      <Route  path="/login" element={<Login></Login>}></Route>
+      <Route  path="/register" element={<Register></Register>}></Route>
       {/* <Route exact path="/" element={<Home></Home>}></Route>
       <Route exact path="/" element={<Home></Home>}></Route> */}
     </Routes>
