@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
 import {FaShoppingCart,FaUserCircle,FaTimes } from 'react-icons/fa'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
@@ -23,6 +23,9 @@ const cart = (
             </Link>
             </span>
 )
+
+const activeLink = ({isActive})=>
+(isActive ? `${styles.active}`: "")
 
 const Header = () => {
     const [showMenu,setShowMenu] =useState(false)
@@ -48,25 +51,26 @@ const Header = () => {
       
      </div>
 
-     <div>
-
-   
-        <ul onClick={hideMenu}>
+     <ul onClick={hideMenu}>
         <li className={styles["logo-mobile"]}>
           {logo}
           <FaTimes size={20} onClick={hideMenu}></FaTimes>
         </li>
         <li>
-            <Link to='/'>
+            <NavLink to='/' className={activeLink
+            }>
                 Home
-            </Link>
+            </NavLink>
         </li>
         <li>
-            <Link to='/contact'>
+            <NavLink to='/contact' className={activeLink}>
                 Contact
-            </Link>
+            </NavLink>
         </li>
         </ul>
+     <div>
+
+   
         <div className={styles["header-right"]
     
         }    onClick={hideMenu}>
