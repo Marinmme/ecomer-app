@@ -3,6 +3,7 @@ import styles from './auth.module.scss'
 import login from '../../assets/login.png'
 import {Link} from 'react-router-dom'
 import { FaGoogle } from 'react-icons/fa'
+import Card from '../../components/card/Card'
 const Login = () => {
   return (
     <>
@@ -10,8 +11,10 @@ const Login = () => {
 <div className={styles.img}>
 <img src={login} alt='' width="400"></img>
 </div>
+<Card>
 <div className={styles.form}>
 <h2>Login</h2>
+
 <form>
 <input type="text" placeholder="Email" required></input>
 <input type="password" placeholder="password" required></input>
@@ -33,6 +36,7 @@ Done'have an account?
 </span>
 
 </div>
+</Card>
       </section>
     </>
   )
