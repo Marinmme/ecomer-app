@@ -1,9 +1,26 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styles from './auth.module.scss'
 import reset from '../../assets/forgot.png'
 import {Link} from 'react-router-dom'
 import Card from '../../components/card/Card'
+import {sendPasswordResetEmail } from "firebase/auth";
+import {auth} from '../../firebase/config'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Reset = () => {
+  const [email,setEmail]=useState("")
+  const handleResetPassword = (e) => {
+    e.preventDefault()
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+ toast.success("Check your email for a reset link")
+    })
+    .catch((error) => {
+        toast.error(error.message)
+
+    });
+
+  }
   return (
     <>
         <section className={`container ${styles.auth}`}>
@@ -12,9 +29,13 @@ const Reset = () => {
 <div className={styles.form}>
 <h2>Reset Password</h2>
 
-<form>
-<input type="text" placeholder="Email" required></input>
-<button className="--btn --btn-primary --btn-block">
+<form onSubmit={handleResetPassword}>
+<input type="text" placeholder="Email" required
+value={email} onChange={(e)=>setEmail(e.target.value)}
+></input>
+<button className="--btn --btn-primary --btn-block"
+type="submit"
+>
 Reset Password
 </button>
 <div className={styles.links}>
