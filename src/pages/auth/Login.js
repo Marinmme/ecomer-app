@@ -7,7 +7,10 @@ import Card from '../../components/card/Card'
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../../firebase/config'
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../../components/loader/Loader'
+import {signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 const Login = () => {
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
@@ -29,6 +32,20 @@ const Login = () => {
     toast.error(error.message)
     setILoading(false)
   })
+  }
+  //Login Google
+  const provider = new GoogleAuthProvider();
+  const handleLoginGoogle = () => {
+    signInWithPopup(auth, provider)
+    .then((result) => {
+
+      const user = result.user;
+      toast.success("Login successful")
+      navigate("/")
+    }).catch((error) => {
+      // Handle Errors here.
+      toast.error(error.message)
+    });
   }
   return (
 
@@ -60,7 +77,9 @@ type="submit"
 </div>
 <p>-- or --</p>
 </form>
-<button className="--btn --btn-danger --btn-block">
+<button className="--btn --btn-danger --btn-block"
+onClick={handleLoginGoogle}
+>
 <FaGoogle color="#fff"></FaGoogle>
   Login With Google
 </button>
