@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { onAuthStateChanged } from "firebase/auth";
 import {useDispatch} from 'react-redux'
 import {SET_ACTIVE_USER,REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice'
+import ShowOnLogin from '../hiddenLink/HiddenLink';
+import ShowOnLogout from '../hiddenLink/HiddenLink'
 const logo = (
     <div className={styles.logo}>
     <Link to="/">
@@ -125,23 +127,31 @@ const Header = () => {
     
         }    onClick={hideMenu}>
             <span className={styles.links}>
+          
                 <Link to="/login">
                 Login
                 </Link>
-                <a >
+         
+                <ShowOnLogin>
+                <a href='#home'>
             <FaUserCircle size={15}></FaUserCircle>
             Hi,{displayName}
                 </a>
+                </ShowOnLogin>
                 <Link to="/register">
                 register
                 </Link>
+                <ShowOnLogin>
                 <Link to="/order-history">
                 My orders
                 </Link>
+                </ShowOnLogin>
+                <ShowOnLogin>
                 <Link to="/"
                 onClick={logoutUser}>
               Logout
                 </Link>
+                </ShowOnLogin>
             </span>
         {cart}
         </div>
