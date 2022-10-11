@@ -1,8 +1,13 @@
 import React,{useState} from 'react'
-import { Link,NavLink } from 'react-router-dom'
+import { Link,NavLink,useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss'
 import {FaShoppingCart,FaUserCircle,FaTimes } from 'react-icons/fa'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { signOut } from "firebase/auth";
+import {auth} from '../../firebase/config'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const logo = (
     <div className={styles.logo}>
     <Link to="/">
@@ -35,6 +40,18 @@ const Header = () => {
     }
     const hideMenu= ()=>{
         setShowMenu(false)
+    }
+
+    //logoutUser
+    const navigate = useNavigate()
+    const logoutUser = ()=>{
+   
+        signOut(auth).then(() => {
+            toast.success("Logout successful")
+            navigate("/")
+          }).catch((error) => {
+           toast.error(error.message)
+          })
     }
   return (
     <header>
@@ -83,6 +100,10 @@ const Header = () => {
                 </Link>
                 <Link to="/order-history">
                 My orders
+                </Link>
+                <Link to="/"
+                onClick={logoutUser}>
+              Logout
                 </Link>
             </span>
         {cart}
