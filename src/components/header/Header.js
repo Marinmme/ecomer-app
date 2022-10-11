@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Link,NavLink,useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss'
 import {FaShoppingCart,FaUserCircle,FaTimes } from 'react-icons/fa'
@@ -7,7 +7,7 @@ import { signOut } from "firebase/auth";
 import {auth} from '../../firebase/config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { onAuthStateChanged } from "firebase/auth";
 const logo = (
     <div className={styles.logo}>
     <Link to="/">
@@ -34,6 +34,22 @@ const activeLink = ({isActive})=>
 
 const Header = () => {
     const [showMenu,setShowMenu] =useState(false)
+    const [username,setUsername] = useState("")
+
+    //Monitor current sign in user
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+           
+              const uid = user.uid;
+              console.log(user.displayName)
+              setUsername(user.displayName)
+        
+            } else {
+                    setUsername("")
+            }
+          });
+    },[])
 
     const toggleMenu= ()=>{
         setShowMenu(!showMenu)
@@ -95,6 +111,10 @@ const Header = () => {
                 <Link to="/login">
                 Login
                 </Link>
+                <a >
+            <FaUserCircle size={15}></FaUserCircle>
+            Hi,{username}
+                </a>
                 <Link to="/register">
                 register
                 </Link>
