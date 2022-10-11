@@ -7,22 +7,28 @@ import {sendPasswordResetEmail } from "firebase/auth";
 import {auth} from '../../firebase/config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../../components/loader/Loader'
 const Reset = () => {
   const [email,setEmail]=useState("")
+  const [iLoading,setILoading] = useState(false);
   const handleResetPassword = (e) => {
     e.preventDefault()
+    setILoading(true);
     sendPasswordResetEmail(auth, email)
     .then(() => {
  toast.success("Check your email for a reset link")
+ setILoading(false);
     })
     .catch((error) => {
         toast.error(error.message)
+        setILoading(false);
 
     });
 
   }
   return (
     <>
+    {iLoading && <Loader></Loader>}
         <section className={`container ${styles.auth}`}>
 
 <Card>
