@@ -8,6 +8,8 @@ import {auth} from '../../firebase/config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { onAuthStateChanged } from "firebase/auth";
+import {useDispatch} from 'react-redux'
+import {SET_ACTIVE_USER,REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice'
 const logo = (
     <div className={styles.logo}>
     <Link to="/">
@@ -33,8 +35,10 @@ const activeLink = ({isActive})=>
 (isActive ? `${styles.active}`: "")
 
 const Header = () => {
+    const dispatch = useDispatch()
+
     const [showMenu,setShowMenu] =useState(false)
-    const [username,setUsername] = useState("")
+    const [displayName ,setdisplayName] = useState("")
 
     //Monitor current sign in user
     useEffect(()=>{
@@ -43,13 +47,20 @@ const Header = () => {
            
               const uid = user.uid;
               console.log(user.displayName)
-              setUsername(user.displayName)
+              setdisplayName(user.displayName)
+
+              dispatch(SET_ACTIVE_USER({
+                email: user.email,
+                userName: user.displayName ? user.displayName : displayName,
+                userID: user.uid,
+              }))
         
             } else {
-                    setUsername("")
+                setdisplayName("")
+                dispatch(REMOVE_ACTIVE_USER());
             }
           });
-    },[])
+    },[dispatch, displayName])
 
     const toggleMenu= ()=>{
         setShowMenu(!showMenu)
@@ -113,7 +124,7 @@ const Header = () => {
                 </Link>
                 <a >
             <FaUserCircle size={15}></FaUserCircle>
-            Hi,{username}
+            Hi,{displayName}
                 </a>
                 <Link to="/register">
                 register
